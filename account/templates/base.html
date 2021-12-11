@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link href="{% static "css/bulma.css" %}" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color:lightgray">
+                <div class="navbar-brand">
+                    <img src={% static "SNlogo.png" %} width="120" height="120">
+                </div>
+                <div class="navbar-menu">
+                    <div class="navbar-start">
+                        <a class="navbar-item" href="{% url "dashboard" %}">
+                            My Dashboard
+                        </a>
+                        <a class="navbar-item" href="{% url "images:list" %}">
+                            Images
+                        </a>
+
+                        <a class="navbar-item" href="#">
+                            Peoples
+                        </a>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                More
+                            </a>
+
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item">
+                                    About
+                                </a>
+                                <a class="navbar-item">
+                                    Jobs
+                                </a>
+                                <a class="navbar-item">
+                                    Contact
+                                </a>
+                                <hr class="navbar-divider">
+                                <a class="navbar-item">
+                                    Report an issue
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                {% if request.user.is_authenticated %}
+                                    <div class="navbar-item has-dropdown is-hoverable">
+                                        <p class="navbar-item">Hello {{ request.user.first_name|capfirst }}</p>
+                                        <div class="navbar-dropdown">
+                                            <a class="navbar-item" href="{% url "edit" %}">Edit Your Profile</a>
+                                            <a class="navbar-item" href="{% url "password_change" %}">Change Password</a>
+                                        </div>
+                                    </div>
+                                    <a class="navbar-item button is-light" href="{% url "logout" %}">
+                                        Logout
+                                    </a>
+                                {% else %}
+                                    <a class="button is-primary" href="{% url "register" %}">
+                                        <strong>Sign up</strong>
+                                    </a>
+                                    <a class="button is-light" href="{% url "login" %}">
+                                        Log in
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <div class="panel">
+                {% if messages %}
+                    <ul class="notification">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">
+                                {{ message|safe }}
+                                <a href="#" class="delete">x</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div id="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+        <footer class="has-background-primary-dark mt-6">
+            <h1 class="is-size-1">This is The END</h1>
+        </footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/
+            jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/
+            jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/
+            js.cookie.min.js"></script>
+        <script>
+            var csrftoken = Cookies.get('csrftoken');
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+            $(document).ready(function(){
+                {% block domready %}
+                {% endblock %}
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+{% load thumbnail %}
+{% for image in images %}
+    <div class="is-flex">
+        <a href="{{ image.get_absolute_url }}">
+            {% thumbnail image.image 300x300 crop="smart" as im %}
+            <a href="{{ image.get_absolute_url }}">
+                <img src="{{ im.url }}" height="200" width="200" class="m-5">
+            </a>
+        </a>
+        <div class="m-6">
+            <a href="{{ image.get_absolute_url }}" class="is-size-5">
+                {{ image.title }}
+            </a>
+        </div>
+    </div>
+{% endfor %}

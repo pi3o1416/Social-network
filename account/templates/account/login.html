@@ -1,0 +1,40 @@
+
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+    <h1 class="is-size-2">Log-in</h1>
+    {% if form.errors %}
+        <p class="has-text-danger">
+            Your username and password didn't match.
+            Please try again.
+        </p>
+    {% else %}
+        <p class="is-size-5">Please, use the following form to log-in. If you don't have an account
+            <a href="{% url "register" %}">register here</a></p>
+    {% endif %}
+    <div class="box">
+
+        <form action="{% url 'login' %}" method="post">
+            {% for field in form %}
+                <div class="field">
+                    {{ field.errors }}
+                    <label class="label"> {{ field.label_tag }}</label>
+                    <div class="control">
+                        {{ field }}
+                    </div>
+                    {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}" />
+            <p><input class="button" type="submit" value="Log-in"></p>
+        </form>
+        <p><a href="{% url "password_reset" %}">Forgotten your password?</a></p>
+        <a href="{% url "social:begin" "google-oauth2" %}">Login with Google</a>
+    </div>
+{% endblock %}
+
+

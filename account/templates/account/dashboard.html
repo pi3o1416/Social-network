@@ -1,0 +1,13 @@
+
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <h1 class="is-size-2 m-5">Dashboard</h1>
+    {% with total_images_created=request.user.images_created.count %}
+        <p class="is-size-5">Welcome to your dashboard. You have bookmarked {{ total_images_created }} image{{ total_images_created| pluralize }}.</p>
+    {% endwith %}
+    <p class="is-size-5">
+        Drag the following button to your bookmarks toolbar to bookmark images from other websites → 
+        <a href="javascript:{% include "bookmarklet_launcher.js" %}" class="button is-size-5">Bookmark it</a>
+    </p>
+{% endblock %}

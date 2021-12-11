@@ -1,0 +1,14 @@
+
+
+#configuration file
+/tourbd/config.env
+
+#cache files
+*/__pycache__/
+
+#migrations files
+*/migrations/
+
+#cert file
+.cert.crt
+.cert.key

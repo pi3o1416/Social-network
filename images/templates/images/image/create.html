@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Bookmark an image{% endblock %}
+{% block content %}
+    <h1 class="is-size-2">Bookmark an image</h1>
+    <div class="is-flex">
+        <img src="{{ request.GET.url }}" height="500" width="500" class="m-5">
+        <form class="m-5" method="post">
+            {% for field in form %}
+                {% if field.label_tag != "Url:" %}
+                    <div class="field">
+                        {{ field.errors }}
+                        <label class="label"> {{ field.label_tag }}</label>
+                        <div class="control">
+                            {{ field }}
+                        </div>
+                        {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            {% csrf_token %}
+            <input class="button" type="submit" value="Bookmark it!">
+        </form>
+    </div>
+{% endblock %}

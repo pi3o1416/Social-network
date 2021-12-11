@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Edit your account{% endblock %}
+
+{% block content %}
+    <h1 class="is-size-2 m-5">Edit your account</h1>
+    <p class="is-size-5">You can edit your account using the following form:</p>
+    <form class="box" method="post" enctype="multipart/form-data">
+        {% for field in user_form %}
+            <div class="field">
+                {{ field.errors }}
+                <label class="label"> {{ field.label_tag }}</label>
+                <div class="control">
+                    {{ field }}
+                </div>
+                {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <p><input class="button" type="submit" value="Save changes"></p>
+    </form>
+{% endblock %}
